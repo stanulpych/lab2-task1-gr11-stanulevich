@@ -1,0 +1,39 @@
+modules = ["c"]
+
+[nix]
+channel = "stable-24_05"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "C Program Compilation and Execution"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "compile_and_run_c_program"
+
+[[workflows.workflow]]
+name = "C Program Compilation and Execution"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "gcc -o program main.c task1.c task2.c task3.c && ./program"
+
+[[workflows.workflow]]
+name = "compile_and_run_c_program"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "gcc -o c_tasks main.c task1.c task2.c task3.c && ./c_tasks"
+
+[deployment]
+run = ["sh", "-c", "gcc -o program main.c task1.c task2.c task3.c && ./program"]
